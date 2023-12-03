@@ -1,0 +1,18 @@
+[submodule "external/raylib"]
+	path = external/raylib
+	url = https://github.com/raysan5/raylib.git
+[submodule "external/raylib-cpp"]
+	path = external/raylib-cpp
+	url = https://github.com/RobLoach/raylib-cpp.git
+[submodule "external/box2d"]
+	path = external/box2d
+	url = https://github.com/erincatto/box2d.git
+[submodule "external/bullet3"]
+	path = external/bullet3
+	url = https://github.com/bulletphysics/bullet3.git
+[submodule "external/libsodium"]
+	path = external/libsodium
+	url = https://github.com/robinlinden/libsodium-cmake.git
+[submodule "external/asio"]
+	path = external/asio
+	url = https://github.com/Bigfoot71/asio-cmake.git

@@ -1,0 +1,16 @@
+# NOTE: If 'rayflex' is the main project, all supports will be built.
+#       Otherwise, you will need to manually define the supports you want.
+
+# Graphic support
+option(SUPPORT_GFX_2D "2D graphics support" ${RAYFLEX_IS_MAIN})
+option(SUPPORT_GFX_3D "3D graphics support" ${RAYFLEX_IS_MAIN})
+
+# Physical support
+option(SUPPORT_PHYS_2D "2D physical media" ${RAYFLEX_IS_MAIN})
+option(SUPPORT_PHYS_3D "3D physical support" ${RAYFLEX_IS_MAIN})
+
+# Network support
+option(SUPPORT_NET "Network Support" ${RAYFLEX_IS_MAIN})
+
+# Option for examples
+option(RAYFLEX_BUILD_EXAMPLES "Build rayFlex examples" ${RAYFLEX_IS_MAIN})

@@ -317,5 +317,5 @@ void gfx3d::Camera::Print()
     TraceLog(LOG_DEBUG, "Near: %f", near);
     TraceLog(LOG_DEBUG, "Far: %f", far);
     TraceLog(LOG_DEBUG, "orthographic: %s", orthographic ? "True" : "False");
-    TraceLog(LOG_DEBUG, "*~~~~~~~~~~~~~~ END ~~~~~~~~~~~~~~~~~*");
+    TraceLog(LOG_DEBUG, "*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*");
 }

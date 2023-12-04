@@ -42,21 +42,21 @@ void gfx3d::ShadowMap::BeginMode(const Rectangle& bounds) const
     rlDrawRenderBatchActive();
     rlEnableFramebuffer(id);
 
-    // Defini la zone du tampon où il faudra travaillé
+    // Define the area of ​​the buffer where it will be necessary to work
     rlEnableScissorTest();
     rlScissor(bounds.x, bounds.y, bounds.width, bounds.height);
 
     // Set viewport to framebuffer size
     rlViewport(bounds.x, bounds.y, bounds.width, bounds.height);
 
-    rlMatrixMode(RL_PROJECTION);       // Switch to projection matrix
+    rlMatrixMode(RL_PROJECTION);            // Switch to projection matrix
     rlLoadIdentity();                       // Reset current matrix (projection)
 
     // Set orthographic projection to current framebuffer size
     // NOTE: Configured top-left corner as (0, 0)
     rlOrtho(0, bounds.width, bounds.height, 0, 0, 1);
 
-    rlMatrixMode(RL_MODELVIEW);        // Switch back to modelview matrix
+    rlMatrixMode(RL_MODELVIEW);             // Switch back to modelview matrix
     rlLoadIdentity();                       // Reset current matrix (modelview)
 
     // Disable front face rendering (to render back faces)
@@ -96,7 +96,7 @@ void gfx3d::ShadowMap::Clear() const
     rlDrawRenderBatchActive();
     rlEnableFramebuffer(id);
     rlViewport(0, 0, width, height);
-    rlClearColor(255, 255, 255, 255);   // Clear la tampon en blanc (max distance)
+    rlClearColor(255, 255, 255, 255);   // Clear the entire buffer in white (max distance)
     rlClearScreenBuffers();
     rlDrawRenderBatchActive();
     rlDisableFramebuffer();
@@ -508,9 +508,9 @@ gfx3d::Light::Light(raylib::Shader& _modelShader, ShadowMap* _shadowMap, uint16_
 
     std::string uniform("lights[" + std::to_string(lightNum) + "].");
 
-	locsLightModelShader[LOC_LIGHT_MAT] = modelShader.GetLocation(uniform+"matrix");
-	locsLightModelShader[LOC_LIGHT_POS] = modelShader.GetLocation(uniform+"position");
-	locsLightModelShader[LOC_LIGHT_DIR] = modelShader.GetLocation(uniform+"direction");
+    locsLightModelShader[LOC_LIGHT_MAT] = modelShader.GetLocation(uniform+"matrix");
+    locsLightModelShader[LOC_LIGHT_POS] = modelShader.GetLocation(uniform+"position");
+    locsLightModelShader[LOC_LIGHT_DIR] = modelShader.GetLocation(uniform+"direction");
     locsLightModelShader[LOC_LIGHT_COLOR] = modelShader.GetLocation(uniform+"color");
     locsLightModelShader[LOC_LIGHT_CUTOFF] = modelShader.GetLocation(uniform+"cutoff");
     locsLightModelShader[LOC_LIGHT_RADIUS] = modelShader.GetLocation(uniform+"radius");
@@ -720,7 +720,7 @@ void gfx3d::Lights::Load(const char* vertModel, const char* fragModel, bool isDa
     LoadModelShader(vertModel, fragModel, isData);
 
     // Recuperation des locations de vue et de shadow map (TODO: ajouté shadow map à raylib ?)
-	modelShader.locs[SHADER_LOC_VECTOR_VIEW] = modelShader.GetLocation("viewPos");
+    modelShader.locs[SHADER_LOC_VECTOR_VIEW] = modelShader.GetLocation("viewPos");
     modelShader.locs[SHADER_LOC_MAP_HEIGHT] = modelShader.GetLocation("shadowMap");
 
     // Recuperation des locations uniques

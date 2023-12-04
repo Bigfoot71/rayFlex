@@ -36,7 +36,6 @@ gfx2d::ParticleSystem::~ParticleSystem()
 
 gfx2d::ParticleSystem::ParticleSystem(ParticleSystem&& other) noexcept
 {
-    // Transférez les ressources de 'other' vers 'this'
     position = std::move(other.position);
     minVel = std::move(other.minVel);
     maxVel = std::move(other.maxVel);

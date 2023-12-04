@@ -302,19 +302,19 @@ void gfx2d::Sprite::Update(float dt, Instance* instance)
 {
     Animation* animation = instance->animation;
 
-    const int8_t direction = (dt > 0) ? 1 : -1; // Direction de l'animation (1 pour l'avant, -1 pour l'arrière)
+    const int8_t direction = (dt > 0) ? 1 : -1; // Animation direction (1 for forward, -1 for backward)
 
     if (animation->loop
         || (direction > 0 && instance->currentFrame < animation->count - 1)
         || (direction < 0 && instance->currentFrame > 0)                 )
     {
-        if ((instance->animTime += dt) * direction >= animation->speed) // Animation (jusqu'à la première ou la dernière frame selon la direction)
+        if ((instance->animTime += dt) * direction >= animation->speed) // Animation (until the first or last frame depending on the direction)
         {
             instance->currentFrame = (instance->currentFrame + direction + animation->count) % animation->count;
             instance->animTime = 0;
         }
     }
-    else if (instance->animTime < animation->speed) // Première ou dernière (selon la direction) frame atteinte en non-loop, incrémentation du timer jusqu'à sa fin (pour l'utilisation de `IsAnimFinished`)
+    else if (instance->animTime < animation->speed) // First or last (depending on the direction) frame reached in non-loop, increment of the timer until its end (for the use of `IsAnimFinished`)
     {
         instance->animTime += dt;
     }

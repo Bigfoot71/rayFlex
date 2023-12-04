@@ -150,7 +150,7 @@ For everything related to the network (server/client) with automatic asymmetric 
 
 ## Example Showcase
 
-Explore the capabilities of RayFlex with these illustrative GIFs:
+Explore the capabilities of rayFlex with these illustrative GIFs:
 
 ![Core Module](examples/resources/webp/core_mainshader.webp)
 ![2D Graphics Module](examples/resources/webp/gfx2d_sprites_and_particles.webp)

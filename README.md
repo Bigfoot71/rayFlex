@@ -152,20 +152,9 @@ For everything related to the network (server/client) with automatic asymmetric 
 
 Explore the capabilities of RayFlex with these illustrative GIFs:
 
-1. Core Module in Action:
-   ![Core Module](examples/resources/webp/core_mainshader.webp)
-
-2. 2D Graphics Module - Sprites and Particles:
-   ![2D Graphics Module](examples/resources/webp/gfx2d_sprites_and_particles.webp)
-
-3. 2D Physics Module - Basic Physics Simulation:
-   ![2D Physics Module](examples/resources/webp/phys2d_basic.webp)
-
-4. 3D Graphics Module - Dynamic Lights:
-   ![3D Graphics Module](examples/resources/webp/gfx3d_lights.webp)
-
-5. 3D Physics Module - Basic 3D Physics Simulation:
-   ![3D Physics Module](examples/resources/webp/phys3d_basic.webp)
-
-6. 3D Physics Module - World Interaction:
-   ![3D Physics Module](examples/resources/webp/phys3d_world.webp)
+![Core Module](examples/resources/webp/core_mainshader.webp)
+![2D Graphics Module](examples/resources/webp/gfx2d_sprites_and_particles.webp)
+![2D Physics Module](examples/resources/webp/phys2d_basic.webp)
+![3D Graphics Module](examples/resources/webp/gfx3d_lights.webp)
+![3D Physics Module](examples/resources/webp/phys3d_basic.webp)
+![3D Physics Module](examples/resources/webp/phys3d_world.webp)

@@ -21,8 +21,8 @@ void core::App::UpdateAndDraw()
 {
     currentState->second->Update(GetFrameTime());
 
-    renderer.BeginMode().Clear();
-        currentState->second->Draw();
+    renderer.BeginMode();
+        currentState->second->Draw(renderer);
     renderer.EndMode();
 
     window.BeginDrawing();
@@ -42,13 +42,13 @@ void core::App::UpdateAndDrawTransition()
     nextState->second->Update(dt);
 
     // Render previous state
-    renderer.BeginMode().Clear();
-        currentState->second->Draw();
+    renderer.BeginMode();
+        currentState->second->Draw(renderer);
     renderer.EndMode();
 
     // Render next state
-    rendererTransition.BeginMode().Clear();
-        nextState->second->Draw();
+    rendererTransition.BeginMode();
+        nextState->second->Draw(rendererTransition);
     rendererTransition.EndMode();
 
     // Re-render both states if main shader is defined
@@ -56,11 +56,11 @@ void core::App::UpdateAndDrawTransition()
     {
         shaderMain->BeginMode();
 
-            renderer.BeginMode().Clear();
+            renderer.BeginMode();
                 renderer.Draw();
             renderer.EndMode();
 
-            rendererTransition.BeginMode().Clear();
+            rendererTransition.BeginMode();
                 rendererTransition.Draw();
             rendererTransition.EndMode();
 
@@ -175,6 +175,12 @@ int core::App::Run(const std::string& firstState, uint32_t targetFPS)
     if (nextState != nullptr) nextState->second->Exit();
 
     return retCode;
+}
+
+const core::Renderer& core::App::GetRenderer(const State* state) const
+{
+    if (state == currentState->second.get()) return renderer;
+    return rendererTransition;
 }
 
 raylib::Vector2 core::App::GetMousePosition() const

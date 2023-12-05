@@ -5,3 +5,4 @@ include_directories(${RAYFLEX_EXTERNAL_INCLUDES} ${CMAKE_SOURCE_DIR}/include)
 link_libraries(rayflex ${RAYFLEX_EXTERNAL_LINKS})
 
 add_executable(phys2d_basic basic.cpp)
+target_compile_definitions(phys2d_basic PRIVATE SUPPORT_PHYS_2D=1)

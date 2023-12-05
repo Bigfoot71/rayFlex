@@ -35,7 +35,7 @@ class Game : public core::State, net::ClientInterface<GameMsg>
                     TraceLog(LOG_INFO, "Server accepted client!");
                     net::Packet<GameMsg> response;
                     response.header.id = GameMsg::Client_RegisterWithServer;
-                    descPlayer.position = gen.RandomVec2({0,0}, app->renderer.GetSize());
+                    descPlayer.position = gen.RandomVec2({0,0}, app->GetResolution());
                     for (int i = 0; i < 7; i++) descPlayer.name[i] = gen.RandomChar();
                     descPlayer.name[7] = '\0';
                     response << descPlayer;
@@ -138,8 +138,10 @@ class Game : public core::State, net::ClientInterface<GameMsg>
         SendPacket();
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
+        target.Clear();
+
 		if (waitingForConnection)
 		{
             static const char text[] = "Waiting to connect...";

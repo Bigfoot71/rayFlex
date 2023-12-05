@@ -15,12 +15,13 @@ class Game : public core::State
             SHADER_UNIFORM_FLOAT);
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
+        target.Clear();
         constexpr char txt[] = "Hello World ! :D";
         raylib::Color(WHITE).DrawText(txt,
-            (app->renderer.GetWidth() - MeasureText(txt, 64)) * 0.5f,
-            (app->renderer.GetHeight() - 64) * 0.5f, 64);
+            (target.GetWidth() - MeasureText(txt, 64)) * 0.5f,
+            (target.GetHeight() - 64) * 0.5f, 64);
     }
 };
 

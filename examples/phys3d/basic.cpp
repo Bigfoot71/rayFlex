@@ -64,8 +64,10 @@ class Demo : public core::State
         world->Step(timeStep, 10); // Update physics
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
+        target.Clear();
+
         camera.BeginMode();
             DrawGrid(10, 1.0);
             world->Draw();

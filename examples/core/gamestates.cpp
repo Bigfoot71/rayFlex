@@ -16,10 +16,10 @@ class Title : public core::State
         }
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
-        DrawRectangle(0, 0, app->renderer.GetWidth(), app->renderer.GetHeight(), GREEN);
-        text.Draw((app->renderer.GetSize() - text.MeasureEx()) * 0.5f, 0);
+        DrawRectangle(0, 0, target.GetWidth(), target.GetHeight(), GREEN);
+        text.Draw((target.GetSize() - text.MeasureEx()) * 0.5f, 0);
     }
 };
 
@@ -37,10 +37,10 @@ class Game : public core::State
         }
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
-        DrawRectangle(0, 0, app->renderer.GetWidth(), app->renderer.GetHeight(), BLUE);
-        text.Draw((app->renderer.GetSize() - text.MeasureEx()) * 0.5f, 0);
+        target.Clear(BLUE);
+        text.Draw((target.GetSize() - text.MeasureEx()) * 0.5f, 0);
     }
 };
 

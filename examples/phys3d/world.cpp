@@ -315,13 +315,13 @@ class Demo : public core::State
             { 0.0f, 16.0f, -32.0f },
             { 0.0f, 0.0f, 0.0f },
             { 0.0f, 1.0f, 0.0f },
-            60.0f, app->renderer.GetAspectRatio());
+            60.0f, app->GetAspectRatio());
 
         world = new DemoWorld(app, camera, { 64, 8, 64 });
 
         core::RandomGenerator gen;
 
-        for (size_t i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             if (gen.Random<uint8_t>(0, 1))
             {
@@ -362,8 +362,10 @@ class Demo : public core::State
         world->Update(camera);
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
+        target.Clear();
+
         camera->BeginMode();
             world->Draw();
         camera->EndMode();

@@ -89,7 +89,7 @@ class Game : public core::State
     {
         for (auto & character : characters)
         {
-            character.Update(app->renderer, dt);
+            character.Update(app->GetRenderer(this), dt);
         }
 
         pSys.SetPosition(app->GetMousePosition());
@@ -112,9 +112,9 @@ class Game : public core::State
         pSys.Update(dt);
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
-        DrawRectangle(0, 0, app->renderer.GetWidth(), app->renderer.GetHeight(), DARKGRAY);
+        target.Clear(DARKGRAY);
         for (const auto & character : characters) character.Draw();
         pSys.Draw();
     }

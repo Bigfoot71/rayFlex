@@ -5,3 +5,4 @@ include_directories(${RAYFLEX_EXTERNAL_INCLUDES} ${CMAKE_SOURCE_DIR}/include)
 link_libraries(rayflex ${RAYFLEX_EXTERNAL_LINKS})
 
 add_executable(gfx2d_sprites_and_particles sprites_and_particles.cpp)
+target_compile_definitions(gfx2d_sprites_and_particles PRIVATE SUPPORT_GFX_2D=1)

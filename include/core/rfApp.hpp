@@ -45,23 +45,27 @@ namespace rf { namespace core {
         /**
          * @brief Called when entering this state.
          */
-        virtual void Enter()            { }
+        virtual void Enter()
+        { }
 
         /**
          * @brief Called when exiting this state.
          */
-        virtual void Exit()             { }
+        virtual void Exit()
+        { }
 
         /**
          * @brief Updates the state logic.
          * @param dt Delta time since the last frame.
          */
-        virtual void Update(float dt)   { }
+        virtual void Update(float dt)
+        { }
 
         /**
          * @brief Draws the state content.
          */
-        virtual void Draw()             { }
+        virtual void Draw(const Renderer& target)
+        { }
     };
 
     /**
@@ -95,7 +99,6 @@ namespace rf { namespace core {
         raylib::AudioDevice audio;                  ///< AudioDevice instance for the application.
 
       public:
-        Renderer renderer;                          ///< Renderer instance for the application.
         AssetManager assetManager;                  ///< AssetManager instance for the application.
         std::unique_ptr<SaveManager> saveManager;   ///< SaveManager instance for the application.
 
@@ -105,6 +108,7 @@ namespace rf { namespace core {
         std::pair<const std::string, std::unique_ptr<State>> *currentState = nullptr;   ///< Current state of the App.
 
       private:
+        Renderer renderer;                                  ///< Renderer instance for the application.
         Renderer rendererTransition;                        ///< Renderer used for rendering the next state during transition.
         raylib::Shader *shaderMain = nullptr;               ///< Main shader applied to all rendering, including transitions.
         raylib::Shader *shaderTransition = nullptr;         ///< Transition shader for custom transition effects.
@@ -214,8 +218,8 @@ namespace rf { namespace core {
 
                 loadingState->Update(dt);
 
-                rendererTransition.BeginMode().Clear();
-                    loadingState->Draw();
+                rendererTransition.BeginMode();
+                    loadingState->Draw(rendererTransition);
                 rendererTransition.EndMode();
 
                 window.BeginDrawing();
@@ -283,6 +287,13 @@ namespace rf { namespace core {
         }
 
         /**
+         * @brief Retrieves the core::Renderer currently in use for the given state.
+         * @param state The state for which to retrieve the Renderer.
+         * @return A reference to the Renderer in use.
+         */
+        const Renderer& GetRenderer(const State* state) const;
+
+        /**
          * @brief Gets the current mouse position.
          * @return The current mouse position as a raylib::Vector2.
          */
@@ -295,7 +306,16 @@ namespace rf { namespace core {
         bool IsAspectRatioKept() const;
 
         /**
-         * @brief Gets the current resolution of the application window.
+         * @brief Retrieves the aspect ratio of the render targets.
+         * @return The aspect ratio of the render targets.
+         */
+        float GetAspectRatio() const
+        {
+            return renderer.GetAspectRatio();
+        }
+
+        /**
+         * @brief Gets the current resolution of the render targets.
          * @return The resolution as a raylib::Vector2.
          */
         raylib::Vector2 GetResolution() const;
@@ -307,7 +327,7 @@ namespace rf { namespace core {
         void KeepAspectRatio(bool enabled);
 
         /**
-         * @brief Sets the resolution of the application window.
+         * @brief Sets the resolution of the render targets.
          * @param size The new resolution as a raylib::Vector2.
          * @param fitWindowSize Whether to fit the window size to the new resolution (default is false).
          */

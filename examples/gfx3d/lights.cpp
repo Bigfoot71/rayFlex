@@ -92,8 +92,10 @@ class Game : public core::State
         lights->DrawDepth(*cube, { 0, 0, 20 }, { 0, 1, 0 }, angle, { 1, 1, 1 }, WHITE);
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
+        target.Clear();
+
         camera->BeginMode();
             lights->Draw(*plane, { 0, -5, 20 }, {}, 0, { 1, 1, 1 }, GRAY);
             lights->Draw(*cube, { 0, 0, 20 }, { 0, 1, 0 }, angle, { 1, 1, 1 }, WHITE);

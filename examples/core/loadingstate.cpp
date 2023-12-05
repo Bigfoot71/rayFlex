@@ -18,7 +18,7 @@ class Loading : public core::LoadingState
         }
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
         raylib::Color(WHITE).DrawText("Loading...", 100, 100, 32);
         DrawCircleSector({ 400, 300 }, 32, 0, 360 * progress, 36, raylib::Color(Vector3{360 * progress, 1.0f, 1.0f}));
@@ -41,11 +41,11 @@ class Game : public core::State
         }
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
-        DrawRectangle(0, 0, app->renderer.GetWidth(), app->renderer.GetHeight(), BLUE);
-        txt1.Draw((app->renderer.GetSize() - txt1.MeasureEx()) * 0.5f, 0);
-        txt2.Draw({ (app->renderer.GetWidth() - txt2.MeasureEx().x) * 0.5f, app->renderer.GetHeight() * 0.5f + 32 }, 0);
+        target.Clear(BLUE);
+        txt1.Draw((target.GetSize() - txt1.MeasureEx()) * 0.5f, 0);
+        txt2.Draw({ (target.GetWidth() - txt2.MeasureEx().x) * 0.5f, target.GetHeight() * 0.5f + 32 }, 0);
     }
 };
 

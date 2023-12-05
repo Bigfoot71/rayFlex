@@ -147,8 +147,8 @@ class Demo : public core::State
             phys2d::Vector2(0, gravity));
 
         // Créer des murs statiques
-        const float sw = app->renderer.GetWidth();
-        const float sh = app->renderer.GetHeight();
+        const float sw = app->GetResolution().x;
+        const float sh = app->GetResolution().y;
 
         groundBody = std::make_unique<Rect>(world.get(), sw * 0.5f, sh - 5.0f, sw, 10.0f);
         ceilingBody = std::make_unique<Rect>(world.get(), sw * 0.5f, 5.0f, sw, 10.0f);
@@ -187,8 +187,9 @@ class Demo : public core::State
         circleMouse->Update(boxes);
     }
 
-    void Draw() override
+    void Draw(const core::Renderer& target) override
     {
+        target.Clear();
         for (Box& box : boxes) box.Draw(RED);
         phys2d::DrawWorld(world.get());
     }

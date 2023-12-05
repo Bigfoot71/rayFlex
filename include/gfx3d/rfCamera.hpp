@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_GFX_3D_CAMERA_HPP
 #define RAYFLEX_GFX_3D_CAMERA_HPP
+#ifdef SUPPORT_GFX_3D
 
 #include <Vector3.hpp>
 #include <Vector4.hpp>
@@ -185,4 +186,5 @@ namespace rf { namespace gfx3d {
     };
 }}
 
+#endif //SUPPORT_GFX_3D
 #endif //RAYFLEX_GFX_3D_CAMERA_HPP

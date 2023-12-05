@@ -21,6 +21,13 @@ if (NOT PLATFORM_CPP)
     set(PLATFORM_CPP "PLATFORM_DESKTOP")
 endif()
 
+# Configuration for compiling with emscripten (wasm)
+if("${PLATFORM_CPP}" STREQUAL "PLATFORM_WEB")
+    include(ConfigEmscripten)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s WASM=1 -s ASYNCIFY=1 -s USE_GLFW=3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -s ASYNCIFY=1 -s USE_GLFW=3")
+endif()
+
 # Include 'rayflex' configuration options
 include(CMakeOptions.txt)
 

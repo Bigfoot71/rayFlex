@@ -372,7 +372,7 @@ class Demo : public core::State
 
 int main()
 {
-    core::App app("PHYS 3D - World", 800, 600, 60, FLAG_MSAA_4X_HINT);
+    core::App app("PHYS 3D - World", 800, 600, FLAG_MSAA_4X_HINT);
     app.AddState<Demo>("demo");
     return app.Run("demo");
 }

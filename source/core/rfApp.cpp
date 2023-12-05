@@ -1,13 +1,16 @@
 #include "core/rfApp.hpp"
 
+#ifdef PLATFORM_WEB
+#   include <emscripten/emscripten.h>
+#endif
+
 using namespace rf;
 
 /* PRIVATE */
 
-void core::App::Init(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio, uint32_t targetFPS, uint32_t flags, bool initAudio)
+void core::App::Init(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio, uint32_t flags, bool initAudio)
 {
     window.Init(winSize.x, winSize.y, title, flags);
-    window.SetTargetFPS(targetFPS);
     if (initAudio) audio.Init();
 
     renderer.Load(targetSize, keepAspectRatio);
@@ -107,14 +110,14 @@ void core::App::UpdateAndDrawTransition()
 
 /* PUBLIC */
 
-core::App::App(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio, uint32_t targetFPS, uint32_t flags, bool initAudio) : audio(true)
+core::App::App(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio, uint32_t flags, bool initAudio) : audio(true)
 {
-    Init(title, winSize, targetSize, keepAspectRatio, targetFPS, flags, initAudio);
+    Init(title, winSize, targetSize, keepAspectRatio, flags, initAudio);
 }
 
-core::App::App(const std::string& title, int width, int height, uint32_t targetFPS, uint32_t flags, bool initAudio) : audio(true)
+core::App::App(const std::string& title, int width, int height, uint32_t flags, bool initAudio) : audio(true)
 {
-    Init(title, { static_cast<float>(width), static_cast<float>(height) }, { static_cast<float>(width), static_cast<float>(height) }, true, targetFPS, flags, initAudio);
+    Init(title, { static_cast<float>(width), static_cast<float>(height) }, { static_cast<float>(width), static_cast<float>(height) }, true, flags, initAudio);
 }
 
 void core::App::SetState(const std::string& stateName)
@@ -143,24 +146,40 @@ void core::App::Transition(const std::string& stateName, float duration, raylib:
     nextState->second->Enter();
 }
 
-int core::App::Run(const std::string& firstState)
+int core::App::Run(const std::string& firstState, uint32_t targetFPS)
 {
     currentState = &(*states.find(firstState));
     currentState->second->Enter();
 
     running = true;
 
-    while (running && !window.ShouldClose())
-    {
-        if (window.IsResized())
+#   ifdef PLATFORM_WEB
+
+        const auto updateDrawFrame = [&]()
         {
-            rendererTransition.Update();
-            renderer.Update();
+            if (nextState == nullptr) UpdateAndDraw();
+            else UpdateAndDrawTransition();
+        };
+
+        emscripten_set_main_loop(updateDrawFrame, targetFPS, 1);
+
+#   else
+
+        window.SetTargetFPS(targetFPS);
+
+        while (running && !window.ShouldClose())
+        {
+            if (window.IsResized())
+            {
+                rendererTransition.Update();
+                renderer.Update();
+            }
+
+            if (nextState == nullptr) UpdateAndDraw();
+            else UpdateAndDrawTransition();
         }
 
-        if (nextState == nullptr) UpdateAndDraw();
-        else UpdateAndDrawTransition();
-    }
+#   endif
 
     if (currentState != nullptr) currentState->second->Exit();
     if (nextState != nullptr) nextState->second->Exit();

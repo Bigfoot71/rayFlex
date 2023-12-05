@@ -1,5 +1,6 @@
-#ifndef RAYSX_NETWORK_SECURITY_HPP
-#define RAYSX_NETWORK_SECURITY_HPP
+#ifndef RAYFLEX_NETWORK_SECURITY_HPP
+#define RAYFLEX_NETWORK_SECURITY_HPP
+#ifdef SUPPORT_NET
 
 #include "./rfPacket.hpp"
 
@@ -276,4 +277,5 @@ namespace rf { namespace net {
 
 }}
 
-#endif
+#endif //SUPPORT_NET
+#endif //RAYFLEX_NETWORK_SECURITY_HPP

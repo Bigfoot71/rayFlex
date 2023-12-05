@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_NET_PACKET_HPP
 #define RAYFLEX_NET_PACKET_HPP
+#ifdef SUPPORT_NET
 
 #include <sodium.h>
 #include <iostream>
@@ -205,4 +206,5 @@ namespace rf { namespace net {
 
 }}
 
+#endif //SUPPORT_NET
 #endif //RAYFLEX_NET_PACKET_HPP

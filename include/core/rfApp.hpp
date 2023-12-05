@@ -120,7 +120,7 @@ namespace rf { namespace core {
         int retCode = 0;                ///< Return code of the application.
 
       private:
-        void Init(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio, uint32_t targetFPS, uint32_t flags, bool initAudio);
+        void Init(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio, uint32_t flags, bool initAudio);
         void UpdateAndDraw();
         void UpdateAndDrawTransition();
 
@@ -131,22 +131,20 @@ namespace rf { namespace core {
          * @param winSize The size of the window.
          * @param targetSize The target size for rendering.
          * @param keepAspectRatio Whether to keep the aspect ratio when resizing the window.
-         * @param targetFPS The target frames per second for the application.
          * @param flags Additional flags for window creation.
          * @param initAudio Whether to initialize the audio subsystem.
          */
-        App(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio = true, uint32_t targetFPS = 60, uint32_t flags = 0, bool initAudio = true);
+        App(const std::string& title, const Vector2& winSize, const Vector2& targetSize, bool keepAspectRatio = true, uint32_t flags = 0, bool initAudio = true);
 
         /**
          * @brief Constructs an App instance with specified parameters.
          * @param title The title of the application window.
          * @param width The width of the window.
          * @param height The height of the window.
-         * @param targetFPS The target frames per second for the application.
          * @param flags Additional flags for window creation.
          * @param initAudio Whether to initialize the audio subsystem.
          */
-        App(const std::string& title, int width, int height, uint32_t targetFPS = 60, uint32_t flags = 0, bool initAudio = true);
+        App(const std::string& title, int width, int height, uint32_t flags = 0, bool initAudio = true);
 
         /**
          * @brief Initializes the SaveManager with the specified parameters.
@@ -251,9 +249,10 @@ namespace rf { namespace core {
         /**
          * @brief Runs the application with the specified initial state.
          * @param firstState The name of the first state to run.
+         * @param targetFPS The target frames per second for the application.
          * @return The return code of the application.
          */
-        int Run(const std::string& firstState);
+        int Run(const std::string& firstState, uint32_t targetFPS = 60);
 
         /**
          * @brief Finishes the application with the specified return code.

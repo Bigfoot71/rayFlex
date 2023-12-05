@@ -51,7 +51,7 @@ class Game : public core::State
 
 int main()
 {
-    core::App app("Core - Loading State", 800, 600, 60, FLAG_WINDOW_RESIZABLE);
+    core::App app("Core - Loading State", 800, 600, FLAG_WINDOW_RESIZABLE);
     app.AddState<Game>("game");
 
     app.Loading<Loading>();

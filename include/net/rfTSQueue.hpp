@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_NET_THREAD_SAFE_QUEUE_HPP
 #define RAYFLEX_NET_THREAD_SAFE_QUEUE_HPP
+#ifdef SUPPORT_NET
 
 #include <condition_variable>
 #include <deque>
@@ -149,4 +150,5 @@ namespace rf { namespace net {
 
 }}
 
+#endif //SUPPORT_NET
 #endif //RAYFLEX_NET_THREAD_SAFE_QUEUE_HPP

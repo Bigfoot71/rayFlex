@@ -122,7 +122,7 @@ class Game : public core::State
 
 int main()
 {
-    core::App app("GFX 2D - Sprites & Particles", 800, 600, 60, FLAG_WINDOW_RESIZABLE);
+    core::App app("GFX 2D - Sprites & Particles", 800, 600, FLAG_WINDOW_RESIZABLE);
     app.AddState<Game>("game");
 
     app.assetManager.Add<raylib::Texture2D>("sprite",

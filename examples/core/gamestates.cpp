@@ -46,7 +46,7 @@ class Game : public core::State
 
 int main()
 {
-    core::App app("Core - Game States", 800, 600, 60, FLAG_WINDOW_RESIZABLE);
+    core::App app("Core - Game States", 800, 600, FLAG_WINDOW_RESIZABLE);
     app.AddState<Title>("title");
     app.AddState<Game>("game");
     return app.Run("title");

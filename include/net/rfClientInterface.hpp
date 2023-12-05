@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_NET_CLIENT_INTERFACE_HPP
 #define RAYFLEX_NET_CLIENT_INTERFACE_HPP
+#ifdef SUPPORT_NET
 
 #include "./rfConnection.hpp"
 #include "./rfTSQueue.hpp"
@@ -125,4 +126,5 @@ namespace rf { namespace net {
 
 }}
 
+#endif //SUPPORT_NET
 #endif //RAYFLEX_NET_CLIENT_INTERFACE_HPP

@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_PHYS_3D_WORLD_HPP
 #define RAYFLEX_PHYS_3D_WORLD_HPP
+#ifdef SUPPORT_PHYS_3D
 
 #include <btBulletDynamicsCommon.h>
 #include <Vector3.hpp>
@@ -83,4 +84,5 @@ namespace rf { namespace phys3d {
 
 }}
 
+#endif //SUPPORT_PHYS_3D
 #endif //RAYFLEX_PHYS_3D_WORLD_HPP

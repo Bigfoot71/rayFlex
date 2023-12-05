@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_NET_SERVER_INTERFACE_HPP
 #define RAYFLEX_NET_SERVER_INTERFACE_HPP
+#ifdef SUPPORT_NET
 
 #include "./rfConnection.hpp"
 #include "./rfTSQueue.hpp"
@@ -269,4 +270,5 @@ void ServerInterface<T_PacketID>::Update(size_t maxMessages, bool wait)
 
 }}
 
+#endif //SUPPORT_NET
 #endif //RAYFLEX_NET_SERVER_INTERFACE_HPP

@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_GFX_2D_SPRITE_HPP
 #define RAYFLEX_GFX_2D_SPRITE_HPP
+#if defined(SUPPORT_GFX_2D) || defined(SUPPORT_GFX_3D)
 
 #include <raylib-cpp.hpp>
 #include <unordered_map>
@@ -542,4 +543,5 @@ namespace rf { namespace gfx2d {
 
 }}
 
+#endif //SUPPORT_GFX_2D
 #endif //RAYFLEX_GFX_2D_SPRITE_HPP

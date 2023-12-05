@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_GFX_2D_PARTICLES_HPP
 #define RAYFLEX_GFX_2D_PARTICLES_HPP
+#ifdef SUPPORT_GFX_2D
 
 #include <Vector2.hpp>
 #include <random>
@@ -179,4 +180,5 @@ namespace rf { namespace gfx2d {
 
 }}
 
+#endif //SUPPORT_GFX_2D
 #endif //RAYFLEX_GFX_2D_PARTICLES_HPP

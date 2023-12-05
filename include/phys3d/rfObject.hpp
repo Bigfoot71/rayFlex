@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_PHYS_3D_OBJECT_HPP
 #define RAYFLEX_PHYS_3D_OBJECT_HPP
+#ifdef SUPPORT_PHYS_3D
 
 #include "LinearMath/btTransform.h"
 #include <btBulletDynamicsCommon.h>
@@ -203,4 +204,5 @@ namespace rf { namespace phys3d {
 
 }}
 
+#endif //SUPPORT_PHYS_3D
 #endif //RAYFLEX_PHYS_3D_OBJECT_HPP

@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_PHYS_2D_HPP
 #define RAYFLEX_PHYS_2D_HPP
+#ifdef SUPPORT_PHYS_2D
 
 #include <box2d/box2d.h>
 #include <Color.hpp>
@@ -56,4 +57,5 @@ namespace rf { namespace phys2d {
 
 }}
 
+#endif //SUPPORT_PHYS_2D
 #endif //RAYFLEX_PHYS_2D_HPP

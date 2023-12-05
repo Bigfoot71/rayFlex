@@ -1,5 +1,6 @@
-#ifndef RAYSX_NETWORK_CONNECTION_HPP
-#define RAYSX_NETWORK_CONNECTION_HPP
+#ifndef RAYFLEX_NETWORK_CONNECTION_HPP
+#define RAYFLEX_NETWORK_CONNECTION_HPP
+#ifdef SUPPORT_NET
 
 #include "./rfSecurity.hpp"
 #include "./rfTSQueue.hpp"
@@ -482,4 +483,5 @@ namespace rf { namespace net {
     }
 }}
 
-#endif //RAYSX_NETWORK_CONNECTION_HPP
+#endif //SUPPORT_NET
+#endif //RAYFLEX_NETWORK_CONNECTION_HPP

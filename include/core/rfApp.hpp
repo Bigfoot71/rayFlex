@@ -222,7 +222,7 @@ namespace rf { namespace core {
                     loadingState->Draw(rendererTransition);
                 rendererTransition.EndMode();
 
-                window.BeginDrawing();
+                window.BeginDrawing().ClearBackground();
                     renderer.Draw(); // We redraw the previous state behind the loading screen
                     rendererTransition.Draw({ 255, 255, 255, static_cast<uint8_t>(255 * alphaTrans) });
                 window.EndDrawing();

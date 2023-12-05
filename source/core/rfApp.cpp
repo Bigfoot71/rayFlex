@@ -25,7 +25,7 @@ void core::App::UpdateAndDraw()
         currentState->second->Draw(renderer);
     renderer.EndMode();
 
-    window.BeginDrawing();
+    window.BeginDrawing().ClearBackground();
         if (shaderMain) shaderMain->BeginMode();
             renderer.Draw();
         if (shaderMain) shaderMain->EndMode();
@@ -68,7 +68,7 @@ void core::App::UpdateAndDrawTransition()
     }
 
     // Transition rendering
-    window.BeginDrawing();
+    window.BeginDrawing().ClearBackground();
 
         if (shaderTransition != nullptr)
         {

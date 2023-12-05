@@ -155,7 +155,7 @@ int core::App::Run(const std::string& firstState, uint32_t targetFPS)
 
 #   ifdef PLATFORM_WEB
         emscripten_set_main_loop_arg(
-            UpdateAndDrowLoopCallback, this,
+            UpdateAndDrawLoopCallback, this,
             targetFPS, 1);
 #   else
         window.SetTargetFPS(targetFPS);

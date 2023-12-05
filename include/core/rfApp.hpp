@@ -129,7 +129,7 @@ namespace rf { namespace core {
         // emscripten needs a plain old C function for the main loop
         // however a 'global' function would not have had access to private members
         // then this static member function trick seems to be the simplest way
-        static void UpdateAndDrowLoopCallback(void* arg)
+        static void UpdateAndDrawLoopCallback(void* arg)
         {
             auto app = static_cast<core::App*>(arg);
             if (app->nextState == nullptr) app->UpdateAndDraw();

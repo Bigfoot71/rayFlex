@@ -70,6 +70,20 @@ Adjust the commands based on the specific submodules you need for your project.
 ### Note
 Please note that the submodules `external/raylib` and `external/raylib-cpp` are essential for the proper functioning of the project and are therefore not optional.
 
+## Web Platform Support
+
+To compile your project for the web using Emscripten, follow these steps:
+
+1. Run CMake with the following command:
+
+    ```bash
+    cmake .. -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=/path/to/your/emscripten/cmake/Modules/Platform/Emscripten.cmake
+    ```
+
+2. Make sure to specify the correct path to your Emscripten installation and the `Emscripten.cmake` file.
+
+Please note that you need to manually define the path to your Emscripten installation.
+
 ## Getting Started
 
 To integrate rayFlex into your project effortlessly, include the main header file:

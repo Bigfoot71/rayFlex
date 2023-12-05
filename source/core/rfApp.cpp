@@ -154,19 +154,11 @@ int core::App::Run(const std::string& firstState, uint32_t targetFPS)
     running = true;
 
 #   ifdef PLATFORM_WEB
-
-        const auto updateDrawFrame = [&]()
-        {
-            if (nextState == nullptr) UpdateAndDraw();
-            else UpdateAndDrawTransition();
-        };
-
-        emscripten_set_main_loop(updateDrawFrame, targetFPS, 1);
-
+        emscripten_set_main_loop_arg(
+            UpdateAndDrowLoopCallback, this,
+            targetFPS, 1);
 #   else
-
         window.SetTargetFPS(targetFPS);
-
         while (running && !window.ShouldClose())
         {
             if (window.IsResized())
@@ -174,11 +166,9 @@ int core::App::Run(const std::string& firstState, uint32_t targetFPS)
                 rendererTransition.Update();
                 renderer.Update();
             }
-
             if (nextState == nullptr) UpdateAndDraw();
             else UpdateAndDrawTransition();
         }
-
 #   endif
 
     if (currentState != nullptr) currentState->second->Exit();

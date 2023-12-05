@@ -124,6 +124,19 @@ namespace rf { namespace core {
         void UpdateAndDraw();
         void UpdateAndDrawTransition();
 
+      private:
+#     ifdef PLATFORM_WEB
+        // emscripten needs a plain old C function for the main loop
+        // however a 'global' function would not have had access to private members
+        // then this static member function trick seems to be the simplest way
+        static void UpdateAndDrowLoopCallback(void* arg)
+        {
+            auto app = static_cast<core::App*>(arg);
+            if (app->nextState == nullptr) app->UpdateAndDraw();
+            else app->UpdateAndDrawTransition();
+        }
+#     endif
+
       public:
         /**
          * @brief Constructs an App instance with specified parameters.
@@ -259,6 +272,15 @@ namespace rf { namespace core {
          * @param ret The return code to set (default is 0).
          */
         void Finish(int ret = 0) { running = false, retCode = ret; }
+
+        /**
+         * @brief Checks if the application is currently in transition between two states.
+         * @return true if in transition, false otherwise.
+         */
+        bool OnTransition() const
+        {
+            return nextState != nullptr;
+        }
 
         /**
          * @brief Gets the current mouse position.

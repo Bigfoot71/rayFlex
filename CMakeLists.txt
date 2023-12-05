@@ -23,7 +23,6 @@ endif()
 
 # Configuration for compiling with emscripten (wasm)
 if("${PLATFORM_CPP}" STREQUAL "PLATFORM_WEB")
-    include(ConfigEmscripten)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s WASM=1 -s ASYNCIFY=1 -s USE_GLFW=3")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -s ASYNCIFY=1 -s USE_GLFW=3")
 endif()
@@ -52,7 +51,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 )
 
 # Definitions of macros for 'rayflex'
-target_compile_definitions(${PROJECT_NAME} PUBLIC
+target_compile_definitions(${PROJECT_NAME} PRIVATE
     SUPPORT_GFX_2D=$<BOOL:${SUPPORT_GFX_2D}>
     SUPPORT_GFX_3D=$<BOOL:${SUPPORT_GFX_3D}>
     SUPPORT_PHYS_2D=$<BOOL:${SUPPORT_PHYS_2D}>

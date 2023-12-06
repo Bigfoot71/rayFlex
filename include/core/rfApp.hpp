@@ -1,9 +1,11 @@
 #ifndef RAYFLEX_CORE_APP_HPP
 #define RAYFLEX_CORE_APP_HPP
 
+#include "./rfCursor.hpp"
 #include "./rfRenderer.hpp"
 #include "./rfSaveManager.hpp"
 #include "./rfAssetManager.hpp"
+#include "raylib.h"
 
 #include <RenderTexture.hpp>
 #include <AudioDevice.hpp>
@@ -108,6 +110,7 @@ namespace rf { namespace core {
         std::pair<const std::string, std::unique_ptr<State>> *currentState = nullptr;   ///< Current state of the App.
 
       private:
+        Cursor cursor;                                      ///< Custom mouse cursor.
         Renderer renderer;                                  ///< Renderer instance for the application.
         Renderer rendererTransition;                        ///< Renderer used for rendering the next state during transition.
         raylib::Shader *shaderMain = nullptr;               ///< Main shader applied to all rendering, including transitions.
@@ -225,6 +228,7 @@ namespace rf { namespace core {
                 window.BeginDrawing().ClearBackground();
                     renderer.Draw(); // We redraw the previous state behind the loading screen
                     rendererTransition.Draw({ 255, 255, 255, static_cast<uint8_t>(255 * alphaTrans) });
+                    if (cursor.IsActive()) cursor.Draw(::GetMousePosition());
                 window.EndDrawing();
             }
 
@@ -309,10 +313,7 @@ namespace rf { namespace core {
          * @brief Retrieves the aspect ratio of the render targets.
          * @return The aspect ratio of the render targets.
          */
-        float GetAspectRatio() const
-        {
-            return renderer.GetAspectRatio();
-        }
+        float GetAspectRatio() const;
 
         /**
          * @brief Gets the current resolution of the render targets.
@@ -332,6 +333,19 @@ namespace rf { namespace core {
          * @param fitWindowSize Whether to fit the window size to the new resolution (default is false).
          */
         void SetResolution(const Vector2& size, bool fitWindowSize = false);
+
+        /**
+         * @brief Sets a custom mouse cursor.
+         * @param texture A pointer to the raylib::Texture representing the custom cursor.
+         * @param origin The origin point of the cursor texture (default is {0, 0}).
+         * @param scale The scale factor applied to the cursor texture (default is 1.0f).
+         * @param source The source rectangle defining the portion of the texture to use (default is the entire texture).
+         * @param color The color tint applied to the cursor texture (default is WHITE).
+         *
+         * If the texture pointer is nullptr, the default system cursor is shown; otherwise, the system cursor is hidden.
+         * The cursor properties, such as origin, scale, source, and color, are set accordingly.
+         */
+        void SetCursor(raylib::Texture* texture, const Vector2& origin = {}, float scale = 1.0f, const Rectangle& source = {}, const Color& color = WHITE);
     };
 
 }}

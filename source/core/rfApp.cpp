@@ -26,9 +26,16 @@ void core::App::UpdateAndDraw()
     renderer.EndMode();
 
     window.BeginDrawing().ClearBackground();
+
         if (shaderMain) shaderMain->BeginMode();
             renderer.Draw();
         if (shaderMain) shaderMain->EndMode();
+
+        if (cursor.IsActive())
+        {
+            cursor.Draw(::GetMousePosition());
+        }
+
     window.EndDrawing();
 }
 
@@ -95,6 +102,11 @@ void core::App::UpdateAndDrawTransition()
                 DrawRectangle(0, 0, window.GetWidth(), window.GetHeight(), {
                     0, 0, 0, static_cast<uint8_t>((2.f - 2.f * valTransitionProgress) * 255) });
             }
+        }
+
+        if (cursor.IsActive())
+        {
+            cursor.Draw(::GetMousePosition());
         }
 
     window.EndDrawing();
@@ -193,6 +205,11 @@ bool core::App::IsAspectRatioKept() const
     return renderer.IsRatioKept();
 }
 
+float core::App::GetAspectRatio() const
+{
+    return renderer.GetAspectRatio();
+}
+
 raylib::Vector2 core::App::GetResolution() const
 {
     return renderer.GetSize();
@@ -213,4 +230,12 @@ void core::App::SetResolution(const Vector2& size, bool fitWindowSize)
     {
         window.SetSize(size);
     }
+}
+
+void core::App::SetCursor(raylib::Texture* texture, const Vector2& origin, float scale, const Rectangle& source, const Color& color)
+{
+    if (texture == nullptr) ShowCursor();
+    else HideCursor();
+
+    cursor.Set(texture, origin, scale, source, color);
 }

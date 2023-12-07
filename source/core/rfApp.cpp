@@ -2,6 +2,7 @@
 
 #ifdef PLATFORM_WEB
 #   include <emscripten/emscripten.h>
+#   include <emscripten/html5.h>
 #endif
 
 using namespace rf;
@@ -243,13 +244,34 @@ void core::App::SetCursor(raylib::Texture* texture, const Vector2& origin, float
 void core::App::ToggleFullscreen()
 {
     window.ToggleFullscreen();
+
+#   ifdef PLATFORM_WEB
+        EM_ASM
+        (
+            if (document.fullscreenElement) document.exitFullscreen();
+            else Module.requestFullscreen(true, true); //false, true);
+        );
+        emscripten_sleep(500); // We wait until the full screen is effective on the browser side
+#   endif
+
     rendererTransition.Update();
     renderer.Update();
 }
 
 void core::App::ToggleBorderless()
 {
-    window.ToggleBorderless();
+#   ifdef PLATFORM_WEB
+        window.ToggleFullscreen(); // Set CORE.Window.fullscreen
+        EM_ASM
+        (
+            if (document.fullscreenElement) document.exitFullscreen();
+            else Module.requestFullscreen(true, true); //false, true);
+        );
+        emscripten_sleep(500); // We wait until the full screen is effective on the browser side
+#   else
+        window.ToggleBorderless();
+#   endif
+
     rendererTransition.Update();
     renderer.Update();
 }

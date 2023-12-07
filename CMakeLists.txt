@@ -21,7 +21,7 @@ if (NOT PLATFORM_CPP)
     set(PLATFORM_CPP "PLATFORM_DESKTOP")
 endif()
 
-# Configuration for compiling with emscripten (wasm)
+# Configuration for compiling with emscripten (wasm) (useful???)
 if("${PLATFORM_CPP}" STREQUAL "PLATFORM_WEB")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sWASM=1 -sASYNCIFY=1 -sUSE_GLFW=3")
 endif()

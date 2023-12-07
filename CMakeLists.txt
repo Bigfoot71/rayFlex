@@ -23,8 +23,7 @@ endif()
 
 # Configuration for compiling with emscripten (wasm)
 if("${PLATFORM_CPP}" STREQUAL "PLATFORM_WEB")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s WASM=1 -s ASYNCIFY=1 -s USE_GLFW=3")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -s ASYNCIFY=1 -s USE_GLFW=3")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sWASM=1 -sASYNCIFY=1 -sUSE_GLFW=3")
 endif()
 
 # Include 'rayflex' configuration options

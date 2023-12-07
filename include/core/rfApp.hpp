@@ -346,6 +346,22 @@ namespace rf { namespace core {
          * The cursor properties, such as origin, scale, source, and color, are set accordingly.
          */
         void SetCursor(raylib::Texture* texture, const Vector2& origin = {}, float scale = 1.0f, const Rectangle& source = {}, const Color& color = WHITE);
+
+        /**
+         * @brief Toggles the fullscreen mode by updating rendering targets.
+         *
+         * This function activates or deactivates the fullscreen mode for the application window.
+         * When fullscreen mode is toggled, rendering targets are updated accordingly.
+         */
+        void ToggleFullscreen();
+
+        /**
+         * @brief Toggles borderless windowed fullscreen mode by updating rendering targets.
+         *
+         * This function activates or deactivates the borderless windowed fullscreen mode for the application window.
+         * When borderless fullscreen mode is toggled, rendering targets are updated accordingly.
+         */
+        void ToggleBorderless();
     };
 
 }}

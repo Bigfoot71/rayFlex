@@ -239,3 +239,17 @@ void core::App::SetCursor(raylib::Texture* texture, const Vector2& origin, float
 
     cursor.Set(texture, origin, scale, source, color);
 }
+
+void core::App::ToggleFullscreen()
+{
+    window.ToggleFullscreen();
+    rendererTransition.Update();
+    renderer.Update();
+}
+
+void core::App::ToggleBorderless()
+{
+    window.ToggleBorderless();
+    rendererTransition.Update();
+    renderer.Update();
+}

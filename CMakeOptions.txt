@@ -5,7 +5,7 @@
 option(SUPPORT_GFX_2D "2D graphics support" ${RAYFLEX_IS_MAIN})
 option(SUPPORT_GFX_3D "3D graphics support" ${RAYFLEX_IS_MAIN})
 
-# Physical support
+# Physics support
 option(SUPPORT_PHYS_2D "2D physical support" ${RAYFLEX_IS_MAIN})
 option(SUPPORT_PHYS_3D "3D physical support" ${RAYFLEX_IS_MAIN})
 

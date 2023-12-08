@@ -187,11 +187,37 @@ namespace rf { namespace core {
         }
 
         /**
+         * @brief Gets a pointer to the stored data of the asset with the given name and type.
+         * @tparam _Ta The type of the data to retrieve.
+         * @param name The name of the asset.
+         * @return A pointer to the stored data or nullptr if the asset does not exist or has a different type.
+         */
+        template<typename _Ta>
+        const _Ta* Get(const std::string& name) const
+        {
+            auto it = map.find(name);
+            if (it != map.end()) return it->second.Get<_Ta>();
+            return nullptr;
+        }
+
+        /**
          * @brief Gets a pointer to the asset with the given name.
          * @param name The name of the asset.
          * @return A pointer to the asset or nullptr if the asset does not exist.
          */
         Asset* Get(const std::string& name)
+        {
+            auto it = map.find(name);
+            if (it != map.end()) return &it->second;
+            return nullptr;
+        }
+
+        /**
+         * @brief Gets a pointer to the asset with the given name.
+         * @param name The name of the asset.
+         * @return A pointer to the asset or nullptr if the asset does not exist.
+         */
+        const Asset* Get(const std::string& name) const
         {
             auto it = map.find(name);
             if (it != map.end()) return &it->second;

@@ -60,6 +60,18 @@ namespace rf { namespace core {
         }
 
         /**
+         * @brief Gets a pointer to the stored data of type T.
+         * @tparam T The type of the data to retrieve.
+         * @return A pointer to the stored data.
+         * @throws std::bad_cast if the stored type does not match the requested type.
+         */
+        template <typename T> const T* Get() const
+        {
+            if (type == typeid(T)) return static_cast<T*>(value_.get());
+            else throw std::bad_cast();
+        }
+
+        /**
          * @brief Gets the type information of the stored data.
          * @return The type information.
          */

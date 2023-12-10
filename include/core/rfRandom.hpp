@@ -34,9 +34,9 @@ namespace rf { namespace core {
          * @return A random value generated based on the provided discrete distribution.
          */
         template<typename T>
-        T operator()(const std::discrete_distribution<T>& distribution)
+        T operator()(std::discrete_distribution<T>& distribution)
         {
-            return generator(distribution);
+            return distribution(generator);
         }
 
         /**
@@ -51,6 +51,7 @@ namespace rf { namespace core {
                     std::chrono::system_clock::now().time_since_epoch()).count();
             }
             generator.seed(seed);
+            this->seed = seed;
         }
 
         /**

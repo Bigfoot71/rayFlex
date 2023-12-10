@@ -28,6 +28,18 @@ namespace rf { namespace core {
         }
 
         /**
+         * @brief Generates a random value using a discrete distribution.
+         * @tparam T The type of the random value to be generated.
+         * @param distribution The discrete distribution to use for generating the random value.
+         * @return A random value generated based on the provided discrete distribution.
+         */
+        template<typename T>
+        T operator()(const std::discrete_distribution<T>& distribution)
+        {
+            return generator(distribution);
+        }
+
+        /**
          * @brief Sets the seed for the random number generator.
          * @param seed The seed to set. If not provided or set to 0, it is generated from the current time.
          */

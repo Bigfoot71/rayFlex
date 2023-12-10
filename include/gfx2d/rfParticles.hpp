@@ -155,8 +155,8 @@ namespace rf { namespace gfx2d {
          */
         void SetVelocity(const Vector2& minVel, const Vector2& maxVel)
         {
-            velXDistribution = std::uniform_real_distribution<float>(this->minVel.x, this->maxVel.x);
-            velYDistribution = std::uniform_real_distribution<float>(this->minVel.y, this->maxVel.y);
+            velXDistribution = std::uniform_real_distribution<float>(minVel.x, maxVel.x);
+            velYDistribution = std::uniform_real_distribution<float>(minVel.y, maxVel.y);
             this->minVel = minVel, this->maxVel = maxVel;
         }
 

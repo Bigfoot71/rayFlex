@@ -161,6 +161,14 @@ namespace rf { namespace gfx2d {
         }
 
         /**
+         * @brief Clears the particle system by resetting the number of particles to zero.
+         */
+        void Clear()
+        {
+            numParticles = 0;
+        }
+
+        /**
          * @brief Emits a specified number of new particles.
          * @param num The number of particles to emit.
          */

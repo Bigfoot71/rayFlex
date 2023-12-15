@@ -181,6 +181,7 @@ int core::App::Run(const std::string& firstState, uint32_t targetFPS)
             }
             if (nextState == nullptr) UpdateAndDraw();
             else UpdateAndDrawTransition();
+            musicManager.Update();
         }
 #   endif
 

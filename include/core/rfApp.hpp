@@ -5,7 +5,7 @@
 #include "./rfRenderer.hpp"
 #include "./rfSaveManager.hpp"
 #include "./rfAssetManager.hpp"
-#include "raylib.h"
+#include "./rfMusicManager.hpp"
 
 #include <RenderTexture.hpp>
 #include <AudioDevice.hpp>
@@ -101,8 +101,9 @@ namespace rf { namespace core {
         raylib::AudioDevice audio;                  ///< AudioDevice instance for the application.
 
       public:
-        AssetManager assetManager;                  ///< AssetManager instance for the application.
-        std::unique_ptr<SaveManager> saveManager;   ///< SaveManager instance for the application.
+        AssetManager assetManager;                  ///< Basic generic asset manager.
+        MusicManager musicManager;                  ///< State independent music and playlist manager.
+        std::unique_ptr<SaveManager> saveManager;   ///< Basic generic save manager (optionnal).
 
       private:
         std::unordered_map<std::string, std::unique_ptr<State>> states;                 ///< Map of all states.
@@ -141,6 +142,7 @@ namespace rf { namespace core {
             auto app = static_cast<core::App*>(arg);
             if (app->nextState == nullptr) app->UpdateAndDraw();
             else app->UpdateAndDrawTransition();
+            app->musicManager.Update();
         }
 #     endif
 
@@ -209,6 +211,8 @@ namespace rf { namespace core {
             while (alphaTrans > 0.0f)
             {
                 float dt = GetFrameTime();
+
+                musicManager.Update();
 
                 if (!onLoading && doPostTask)
                 {

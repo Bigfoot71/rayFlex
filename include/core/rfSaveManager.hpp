@@ -70,7 +70,7 @@ namespace rf { namespace core {
          * @return A pointer to the save data.
          */
         template <typename _Ts>
-        inline _Ts* Get() { return &data; }
+        inline _Ts* Get() { return reinterpret_cast<_Ts*>(data); }
 
         /**
          * @brief Loads save data from a file.

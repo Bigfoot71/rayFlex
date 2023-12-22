@@ -43,7 +43,8 @@ void core::App::UpdateAndDraw()
 void core::App::UpdateAndDrawTransition()
 {
     const float dt = GetFrameTime();
-    valTransitionProgress += valTransitionInvDuration * dt;
+    valTransitionProgress = std::min(
+        valTransitionProgress + valTransitionInvDuration * dt, 1.0f);
 
     // Update states
     currentState->second->Update(dt);
@@ -151,7 +152,7 @@ void core::App::Transition(const std::string& stateName, float duration, raylib:
     {
         shaderTransition = shader;
         locTransitionProgress = shader->GetLocation("progress");
-        locTransitionNextTexture = shader->locs[SHADER_LOC_VERTEX_TEXCOORD01];
+        locTransitionNextTexture = shader->GetLocation("textureN");
     }
 
     valTransitionInvDuration = 1.0f / duration;

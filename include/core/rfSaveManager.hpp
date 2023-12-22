@@ -4,6 +4,7 @@
 #include <raylib-cpp.hpp>
 #include <functional>
 #include <fstream>
+#include <cstring>
 #include <string>
 
 namespace rf { namespace core {
@@ -38,13 +39,25 @@ namespace rf { namespace core {
          * @param directory The directory path for saving and loading files.
          */
         template <typename _Ts>
-        SaveManager(const _Ts& origin, int version = 1, const std::string& directory = "");
+        SaveManager(const _Ts& origin, int version = 1, const std::string& directory = "")
+        : version(version), directory(directory)
+        {
+            this->origin = operator new(sizeof(_Ts));
+            std::memcpy(this->origin, &origin, sizeof(_Ts));
+
+            data = operator new(sizeof(_Ts));
+            std::memcpy(data, &origin, sizeof(_Ts));
+        }
 
         /**
          * @brief Destructor for the SaveManager class.
          * Cleans up allocated memory and resources.
          */
-        ~SaveManager();
+        ~SaveManager()
+        {
+            operator delete(origin);
+            operator delete(data);
+        }
 
         /**
          * @brief Sets the directory path for saving and loading files.
@@ -79,7 +92,46 @@ namespace rf { namespace core {
          * @return An error code indicating the result of the operation.
          */
         template <typename _Ts>
-        int Load(const std::string& fileName);
+        int Load(const std::string& fileName)
+        {
+            // Open file in reading mode
+            std::ifstream file(directory + fileName, std::ios::binary);
+            if (!file.is_open()) return FILE_NOT_FOUND;
+
+            // Read version from file
+            int fileVersion;
+            file.read(reinterpret_cast<char*>(&fileVersion), sizeof(int));
+
+            // Check if the version read matches the expected version
+            if (fileVersion != version)
+            {
+                RetCode ret = INCOMPATIBLE_VERSION;
+
+                if (onIncompatibleVersion && onIncompatibleVersion(file, fileVersion))
+                {
+                    ret = SUCCESS;
+                }
+
+                file.close();
+                return ret;
+            }
+
+            // Read '_Ts' data from file
+            file.read(reinterpret_cast<char*>(&data), sizeof(_Ts));
+
+            // Check if reading was successful
+            if (file.fail())
+            {
+                file.close();
+                data = origin;
+                return LOAD_FAILURE;
+            }
+
+            // Close file
+            file.close();
+
+            return SUCCESS;
+        }
 
         /**
          * @brief Writes save data to a file.
@@ -88,7 +140,24 @@ namespace rf { namespace core {
          * @return An error code indicating the result of the operation.
          */
         template <typename _Ts>
-        int Write(const std::string& fileName);
+        int Write(const std::string& fileName)
+        {
+            // Open file in write mode
+            std::ofstream file(directory + fileName, std::ios::binary);
+            if (!file.is_open()) return FILE_NOT_FOUND;
+
+            // Write version first to file then data
+            file.write(reinterpret_cast<char*>(&version), sizeof(int));
+            file.write(reinterpret_cast<char*>(&data), sizeof(_Ts));
+
+            // Check if the write was successful
+            if (file.fail()) return WRITE_FAILURE;
+
+            // Close file
+            file.close();
+
+            return SUCCESS;
+        }
     };
 
 }}

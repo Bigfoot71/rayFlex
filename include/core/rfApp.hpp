@@ -178,7 +178,7 @@ namespace rf { namespace core {
         template <typename _Ts>
         void InitSaveManager(const _Ts& origin, int version = 1, const std::string& directory = "")
         {
-            saveManager = std::make_unique<SaveManager, _Ts>(origin, version, directory);
+            saveManager = std::make_unique<SaveManager>(origin, version, directory);
         }
 
         /**

@@ -117,7 +117,7 @@ namespace rf { namespace core {
             }
 
             // Read '_Ts' data from file
-            file.read(reinterpret_cast<char*>(&data), sizeof(_Ts));
+            file.read(reinterpret_cast<char*>(data), sizeof(_Ts));
 
             // Check if reading was successful
             if (file.fail())
@@ -148,7 +148,7 @@ namespace rf { namespace core {
 
             // Write version first to file then data
             file.write(reinterpret_cast<char*>(&version), sizeof(int));
-            file.write(reinterpret_cast<char*>(&data), sizeof(_Ts));
+            file.write(reinterpret_cast<char*>(data), sizeof(_Ts));
 
             // Check if the write was successful
             if (file.fail()) return WRITE_FAILURE;

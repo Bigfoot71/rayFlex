@@ -50,7 +50,7 @@ namespace rf { namespace core {
          * @brief Sets the directory path for saving and loading files.
          * @param directory The directory path to set.
          */
-        inline void SetPath(const std::string& directory)
+        inline void SetDirectory(const std::string& directory)
         {
             this->directory = directory;
         }
@@ -70,28 +70,25 @@ namespace rf { namespace core {
          * @return A pointer to the save data.
          */
         template <typename _Ts>
-        inline _Ts* GetData()
-        {
-            return &data;
-        }
+        inline _Ts* Get() { return &data; }
 
         /**
          * @brief Loads save data from a file.
          * @tparam _Ts The type of the save data.
-         * @param filePath The path to the file to load.
+         * @param fileName The path to the file to load.
          * @return An error code indicating the result of the operation.
          */
         template <typename _Ts>
-        int Load(const std::string& filePath);
+        int Load(const std::string& fileName);
 
         /**
          * @brief Writes save data to a file.
          * @tparam _Ts The type of the save data.
-         * @param filePath The path to the file to write.
+         * @param fileName The path to the file to write.
          * @return An error code indicating the result of the operation.
          */
         template <typename _Ts>
-        int Write(const std::string& filePath);
+        int Write(const std::string& fileName);
     };
 
 }}

@@ -21,10 +21,10 @@ core::SaveManager::~SaveManager()
 }
 
 template <typename _Ts>
-int core::SaveManager::Load(const std::string& filePath)
+int core::SaveManager::Load(const std::string& fileName)
 {
     // Open file in reading mode
-    std::ifstream file(directory + filePath, std::ios::binary);
+    std::ifstream file(directory + fileName, std::ios::binary);
     if (!file.is_open()) return FILE_NOT_FOUND;
 
     // Read version from file
@@ -63,10 +63,10 @@ int core::SaveManager::Load(const std::string& filePath)
 }
 
 template <typename _Ts>
-int core::SaveManager::Write(const std::string& filePath)
+int core::SaveManager::Write(const std::string& fileName)
 {
     // Open file in write mode
-    std::ofstream file(directory + filePath, std::ios::binary);
+    std::ofstream file(directory + fileName, std::ios::binary);
     if (!file.is_open()) return FILE_NOT_FOUND;
 
     // Write version first to file then data

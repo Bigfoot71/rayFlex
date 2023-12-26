@@ -2,8 +2,8 @@
 #define RAYFLEX_CORE_ASSET_MANAGER_HPP
 
 #include <unordered_map>
-#include <raylib.h>
 #include <typeinfo>
+#include <utility>
 #include <memory>
 #include <string>
 
@@ -15,8 +15,8 @@ namespace rf { namespace core {
     class Asset
     {
       private:
-        std::unique_ptr<void, void(*)(void*)> value_{nullptr, [](void*){}};
-        const std::type_info& type; ///< Type information of the stored data.
+        std::unique_ptr<void, void(*)(void*)> data{nullptr, [](void*){}};
+        std::reference_wrapper<const std::type_info> type; ///< Type information of the stored data.
 
       public:
         /**
@@ -30,9 +30,34 @@ namespace rf { namespace core {
          * @param value The value to be stored.
          */
         template <typename T>
-        Asset(T&& value) : value_(new typename std::decay<T>::type(std::move(value)),
+        Asset(T&& value) : data(new typename std::decay<T>::type(std::move(value)),
             [](void* ptr) { delete static_cast<typename std::decay<T>::type*>(ptr); })
         , type(typeid(T)) { }
+
+        /**
+         * @brief Move constructor for Asset.
+         * @param other The rvalue reference to another Asset.
+         */
+        Asset(Asset&& other) noexcept
+        : data(std::exchange(other.data, nullptr))
+        , type(std::exchange(other.type, std::ref(typeid(void))))
+        { }
+
+        /**
+         * @brief Move assignment operator for Asset.
+         * @param other The rvalue reference to another Asset.
+         * @return A reference to the current Asset after the move.
+         */
+        Asset& operator=(Asset&& other) noexcept
+        {
+            if (this != &other)
+            {
+                // Move the data and type from the other Asset
+                data = std::exchange(other.data, nullptr);
+                type = std::exchange(other.type, std::ref(typeid(void)));
+            }
+            return *this;
+        }
 
         /**
          * @brief Static function to create an Asset with a given type and constructor arguments.
@@ -55,8 +80,8 @@ namespace rf { namespace core {
          */
         template <typename T> T* Get()
         {
-            if (type == typeid(T)) return static_cast<T*>(value_.get());
-            else throw std::bad_cast();
+            if (type.get() != typeid(T)) throw std::bad_cast();
+            return static_cast<T*>(data.get());
         }
 
         /**
@@ -67,8 +92,8 @@ namespace rf { namespace core {
          */
         template <typename T> const T* Get() const
         {
-            if (type == typeid(T)) return static_cast<T*>(value_.get());
-            else throw std::bad_cast();
+            if (type.get() != typeid(T)) throw std::bad_cast();
+            return static_cast<T*>(data.get());
         }
 
         /**
@@ -248,6 +273,18 @@ namespace rf { namespace core {
             if (it != map.end()) return it->second;
             return map.emplace(name, Asset()).first->second;
         }
+
+        /**
+         * @brief Returns an iterator pointing to the beginning of the asset manager's map.
+         * @return An iterator pointing to the beginning.
+         */
+        auto begin() { return map.begin(); }
+
+        /**
+         * @brief Returns an iterator pointing to the end of the asset manager's map.
+         * @return An iterator pointing to the end.
+         */
+        auto end() { return map.end(); }
     };
 
 }}

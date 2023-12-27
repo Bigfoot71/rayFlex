@@ -1,5 +1,6 @@
 #ifndef RAYFLEX_GFX_2D_PARTICLES_HPP
 #define RAYFLEX_GFX_2D_PARTICLES_HPP
+#include <cstdint>
 #ifdef SUPPORT_GFX_2D
 
 #include <Vector2.hpp>
@@ -25,10 +26,10 @@ namespace rf { namespace gfx2d {
          * @param dt The time step for the update.
          * @return True if the particle is still alive, false if it has expired.
          */
-        bool Update(float gravity, float dt)
+        bool Update(const raylib::Vector2& gravity, float dt)
         {
             position += velocity * dt;
-            velocity.y += gravity * dt;
+            velocity -= gravity * dt;
             return (time -= dt) > 0.0f;
         }
 
@@ -51,7 +52,7 @@ namespace rf { namespace gfx2d {
         Vector2 minVel, maxVel;                                     ///< The range of initial velocities for new particles.
         float minRadius, maxRadius;                                 ///< The range of radii for new particles.
         float lifeTime;                                             ///< The lifetime of each emitted particle.
-        float gravity;                                              ///< The gravitational force affecting the particles.
+        Vector2 gravity;                                            ///< The gravitational force affecting the particles.
         Color color;                                                ///< The color of the emitted particles.
         std::mt19937 gen;                                           ///< Random number generator.
         std::uniform_real_distribution<float> velXDistribution;     ///< Distribution for randomizing particle X velocity.
@@ -102,6 +103,42 @@ namespace rf { namespace gfx2d {
         ParticleSystem& operator=(ParticleSystem&& other) noexcept;
 
         /**
+         * @brief Gets the current count of active particles in the system.
+         * @return The number of active particles.
+         */
+        uint32_t Count() const { return numParticles; }
+
+        /**
+         * @brief Gets the maximum capacity of particles allowed in the system.
+         * @return The maximum number of particles allowed.
+         */
+        uint32_t Capacity() const { return maxParticles; }
+
+        /**
+         * @brief Gets the emission position for new particles.
+         * @return The emission position.
+         */
+        Vector2 GetPosition() const { return position; }
+
+        /**
+         * @brief Gets the lifetime value for each emitted particle.
+         * @return The lifetime value.
+         */
+        float SetLifeTime() const { return lifeTime; }
+
+        /**
+         * @brief Gets the gravitational force affecting the particles.
+         * @return The gravitational force.
+         */
+        Vector2 GetGravity() const { return gravity; }
+
+        /**
+         * @brief Gets the color of emitted particles.
+         * @return The color of emitted particles.
+         */
+        Color GetColor() const { return color; }
+
+        /**
          * @brief Sets the emission position for new particles.
          * @param position The emission position.
          */
@@ -123,7 +160,7 @@ namespace rf { namespace gfx2d {
          * @brief Sets the gravitational force affecting the particles.
          * @param gravity The gravitational force.
          */
-        void SetGravity(float gravity)
+        void SetGravity(const Vector2& gravity)
         {
             this->gravity = gravity;
         }

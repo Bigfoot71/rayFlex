@@ -12,11 +12,11 @@
 #include <Window.hpp>
 #include <Shader.hpp>
 
-#include <atomic>
 #include <unordered_map>
 #include <utility>
 #include <memory>
 #include <thread>
+#include <atomic>
 
 namespace rf { namespace core {
 

@@ -12,6 +12,7 @@
 #include <Window.hpp>
 #include <Shader.hpp>
 
+#include <atomic>
 #include <unordered_map>
 #include <utility>
 #include <memory>
@@ -88,7 +89,8 @@ namespace rf { namespace core {
         /**
          * @brief Optional task executed after the main Task on the main thread.
          */
-        virtual void PostTask() { }
+        virtual void PostTask()
+        { }
     };
 
     /**
@@ -194,56 +196,7 @@ namespace rf { namespace core {
          * @brief Initiates a loading screen and executes a loading task.
          * @tparam _Tls The type of LoadingState to be used.
          */
-        template<typename _Tls> void Loading()
-        {
-            LoadingState *loadingState = new _Tls();
-            loadingState->SetApp(this);
-            loadingState->Enter();
-
-            bool onLoading = true;
-            bool doPostTask = true;
-            float alphaTrans = EPSILON;
-
-            std::thread taskThread([&loadingState, &onLoading]() {
-                loadingState->Task(); onLoading = false;
-            });
-
-            while (alphaTrans > 0.0f)
-            {
-                float dt = GetFrameTime();
-
-                musicManager.Update();
-
-                if (!onLoading && doPostTask)
-                {
-                    loadingState->PostTask();
-                    doPostTask = false;
-                }
-
-                if (onLoading && alphaTrans < 1.0f) alphaTrans = std::min(alphaTrans + 4.0f * dt, 1.0f);
-                else if (!onLoading) alphaTrans = std::max(alphaTrans - 4.0f * dt, 0.0f);
-
-                loadingState->Update(dt);
-
-                rendererTransition.BeginMode();
-                    loadingState->Draw(rendererTransition);
-                rendererTransition.EndMode();
-
-                window.BeginDrawing().ClearBackground();
-                    renderer.Draw(); // We redraw the previous state behind the loading screen
-                    rendererTransition.Draw({ 255, 255, 255, static_cast<uint8_t>(255 * alphaTrans) });
-                    if (cursor.IsActive()) cursor.Draw(::GetMousePosition());
-                window.EndDrawing();
-            }
-
-            if (taskThread.joinable())
-            {
-                taskThread.join();
-            }
-
-            loadingState->Exit();
-            delete loadingState;
-        }
+        template<typename _Tls> void Loading();
 
         /**
          * @brief Adds a state of type _Ts to the App.
@@ -367,6 +320,73 @@ namespace rf { namespace core {
          */
         void ToggleBorderless();
     };
+
+    template<typename _Tls>
+    void App::Loading()
+    {
+    #ifdef PLATFORM_WEB
+        // It doesn't matter what options when linking or where we call this method (before or during the main loop)
+        // the thread seems to never launch with emscripten (firefox/chromium). To see again in the future...
+
+        LoadingState *loadingState = new _Tls();
+        loadingState->SetApp(this);
+        loadingState->Enter();
+
+        loadingState->Task();
+        loadingState->PostTask();
+
+        loadingState->Exit();
+        delete loadingState;
+    #else
+        LoadingState *loadingState = new _Tls();
+        loadingState->SetApp(this);
+        loadingState->Enter();
+
+        bool doPostTask = true;
+        float alphaTrans = EPSILON;
+
+        std::atomic<bool> onLoading = true;
+        std::thread taskThread([&loadingState, &onLoading]() {
+            loadingState->Task(); onLoading = false;
+        });
+
+        while (alphaTrans > 0.0f)
+        {
+            float dt = GetFrameTime();
+
+            musicManager.Update();
+
+            if (!onLoading && doPostTask)
+            {
+                loadingState->PostTask();
+                doPostTask = false;
+            }
+
+            if (onLoading && alphaTrans < 1.0f) alphaTrans = std::min(alphaTrans + 4.0f * dt, 1.0f);
+            else if (!onLoading) alphaTrans = std::max(alphaTrans - 4.0f * dt, 0.0f);
+
+            loadingState->Update(dt);
+
+            rendererTransition.BeginMode();
+                loadingState->Draw(rendererTransition);
+            rendererTransition.EndMode();
+
+            window.BeginDrawing().ClearBackground();
+                renderer.Draw(); // We redraw the previous state behind the loading screen
+                rendererTransition.Draw({ 255, 255, 255, static_cast<uint8_t>(255 * alphaTrans) });
+                if (cursor.IsActive()) cursor.Draw(::GetMousePosition());
+            window.EndDrawing();
+        }
+
+        if (taskThread.joinable())
+        {
+            taskThread.join();
+        }
+
+        loadingState->Exit();
+        delete loadingState;
+    #endif
+    }
 
 }}
 

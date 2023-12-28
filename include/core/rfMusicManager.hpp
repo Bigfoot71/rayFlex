@@ -88,6 +88,19 @@ namespace rf { namespace core {
         }
 
         /**
+         * @brief Associates an existing music object with a unique name in the playlist.
+         *
+         * This function allows associating an existing music object with a unique name in the playlist.
+         *
+         * @param name The unique name to associate with the loaded music.
+         * @param music The existing music struct to be associated with the given name.
+         */
+        void Load(const std::string& name, const Music& music)
+        {
+            musics.emplace(name, std::make_unique<raylib::Music>(music));
+        }
+
+        /**
          * @brief Creates a new playlist with the given name and a list of music tracks.
          *
          * @param name The unique name to associate with the new playlist.
@@ -158,6 +171,19 @@ namespace rf { namespace core {
         void RandomizePlaylist(bool value)
         {
             randomize = value;
+        }
+
+        /**
+         * @brief Gets the music associated with the specified name from the playlist.
+         *
+         * This function searches for the music with the given name in the playlist.
+         *
+         * @param name The name of the music to retrieve from the playlist.
+         * @return An iterator pointing to the music in the playlist if found; otherwise, musics.end().
+         */
+        auto Get(const std::string& name)
+        {
+            return musics.find(name);
         }
 
         /**

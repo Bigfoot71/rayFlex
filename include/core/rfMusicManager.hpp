@@ -35,6 +35,17 @@ namespace rf { namespace core {
         bool looping, randomize;                                                        ///< Flags for looping and randomizing music playback.
         bool onPlaying;                                                                 ///< Flag indicating whether music is currently playing.
 
+      private:
+        void PlayCurrentMusic()
+        {
+            // Set audio properties and play the music
+            currentMusic->second->SetVolume(volume);
+            currentMusic->second->SetPitch(pitch);
+            currentMusic->second->SetPan(pan);
+            currentMusic->second->Play();
+            onPlaying = true;
+        }
+
       public:
         /**
          * @brief Default constructor for the MusicManager class.
@@ -306,6 +317,9 @@ namespace rf { namespace core {
          */
         bool Play(const std::string& name = "")
         {
+            // If music is still playing, we stop it first
+            if (currentMusic != nullptr) Stop();
+
             // If no name is provided, and a playlist is set, play the next track in the playlist
             if (name.empty())
             {
@@ -330,12 +344,9 @@ namespace rf { namespace core {
                 currentMusicIndex = -1;
             }
 
-            // Set audio properties and play the music
-            currentMusic->second->SetVolume(volume);
-            currentMusic->second->SetPitch(pitch);
-            currentMusic->second->SetPan(pan);
-            currentMusic->second->Play();
-            onPlaying = true;
+            // We start current music with
+            // all the necessary properties
+            PlayCurrentMusic();
 
             return true;
         }
@@ -426,6 +437,10 @@ namespace rf { namespace core {
                 // Set the current music to the next track in the playlist
                 currentMusic = currentPlaylist->second[currentMusicIndex];
 
+                // We start current music with
+                // all the necessary properties
+                PlayCurrentMusic();
+
                 return true;
             }
             return false;
@@ -451,6 +466,10 @@ namespace rf { namespace core {
                 // Set the current music to the previous track in the playlist
                 currentMusic = currentPlaylist->second[currentMusicIndex];
 
+                // We start current music with
+                // all the necessary properties
+                PlayCurrentMusic();
+
                 return true;
             }
             return false;
@@ -468,10 +487,7 @@ namespace rf { namespace core {
             if (currentPlaylist == nullptr || currentPlaylist->second.size() < 2) return false;
 
             // If music is currently playing, stop it
-            if (currentMusic != nullptr)
-            {
-                currentMusic->second->Stop();
-            }
+            if (currentMusic != nullptr) currentMusic->second->Stop();
 
             // If there is only one track in the playlist, set it as the current track
             if (currentPlaylist->second.size() == 1)
@@ -489,6 +505,10 @@ namespace rf { namespace core {
             // Set the current music to the randomly chosen track
             currentMusic = currentPlaylist->second[nextIndex];
             currentMusicIndex = nextIndex;
+
+            // We start current music with
+            // all the necessary properties
+            PlayCurrentMusic();
 
             return true;
         }
